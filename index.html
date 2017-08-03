@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>On Golden Pond</title>
+  </head>
+  <body>
+    <h1>On Golden Pond</h1>
+    <h4>Code Challenge</h4>
+
+    <div>
+      <form id="pond_form">
+        <label>Pond Size:</label><br>
+        <input id="pond_size" type="text" name="pond size" placeholder="coords as X Y"><br>
+        <label>Duck Info</label><br>
+        <textarea id="duck_info" name="ducks" placeholder="Enter each duck on two lines, the first line is the starting position, the second line is the movement instructions" rows="10" cols="20"></textarea><br><br>
+        <input type="submit" value="Navigate Pond">
+      </form>
+    </div>
+
+    <div id="output" style="display: none;">
+      <label>Output:</label><br>
+      <p id='duck_output'></p>
+    </div>
+
+    <script type="text/javascript" src="./index.js">
+
+    </script>
+  </body>
+</html>
