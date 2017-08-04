@@ -13,16 +13,13 @@ function navigateDucks(){
   var duckPuts = duckPutsRaw.toUpperCase().trim().split(/\r?\n|\r/)
 
   var inDuckStions = duckPutsToInstructions(duckPuts)
-  var whereAreTheyNow = []
-  if (validateBoundaries(boundaries) && validateInDuckStions(inDuckStions, boundaries)) {
-    for(var i = 0; i < inDuckStions.length; i++){
-      var movement = inDuckStions[i].slice(3, inDuckStions[i].length)
-      var coords = [inDuckStions[i][0], inDuckStions[i][1], inDuckStions[i][2]]
-      whereAreTheyNow.push(moveDuck(coords, movement, boundaries))
-    }
+  var whereAreTheyNow = instructionsToMovement(boundaries, inDuckStions)
+  if (whereAreTheyNow.length !== 0) {
+    stringFormatAndOutput(whereAreTheyNow)
+    viewOutput()
+  } else {
+    hideOutput()
   }
-  stringFormatAndOutput(whereAreTheyNow)
-  viewOutput()
 }
 
 // Runner Helpers
@@ -39,10 +36,24 @@ function duckPutsToInstructions(duckPuts) {
   return inDuckStions
 }
 
+function instructionsToMovement(boundaries, inDuckStions){
+  var dirS = {'N': 'E', 'E': 'S', 'S': 'W', 'W': 'N'}
+  var dirP = {'N': 'W', 'E': 'N', 'S': 'E', 'W': 'S'}
+  var whereAreTheyNow = []
+  if (validateBoundaries(boundaries) && validateInDuckStions(inDuckStions, boundaries)) {
+    for(var i = 0; i < inDuckStions.length; i++){
+      var movement = inDuckStions[i].slice(3, inDuckStions[i].length)
+      var coords = [inDuckStions[i][0], inDuckStions[i][1], inDuckStions[i][2]]
+      whereAreTheyNow.push(moveDuck(coords, movement, boundaries, dirS, dirP))
+    }
+  }
+  return whereAreTheyNow
+}
+
+// DOM Manipulation
+
 function stringFormatAndOutput(whereAreTheyNow){
-  var outputText = whereAreTheyNow.map(t => {
-    return `<p>${t.join(' ')}</p>`
-  }).join('')
+  var outputText = whereAreTheyNow.map(t => `<p>${t.join(' ')}</p>`).join('')
   document.getElementById('output').innerHTML = (`<label>Output:</label><br> ${outputText}`)
 }
 
@@ -50,12 +61,14 @@ function viewOutput(){
   document.getElementById('output').style.display = 'inline'
 }
 
+function hideOutput(){
+  document.getElementById('output').style.display = 'none'
+}
+
 // Ducky Computation
 
-function moveDuck(coords, movement, boundaries){
+function moveDuck(coords, movement, boundaries, dirS, dirP){
   var newCoords = coords
-  var dirS = {'N': 'E', 'E': 'S', 'S': 'W', 'W': 'N'}
-  var dirP = {'N': 'W', 'E': 'N', 'S': 'E', 'W': 'S'}
   movement.forEach( m => {
     if (m === 'P') {
       newCoords[2] = dirP[coords[2]]
@@ -92,19 +105,17 @@ function moveDuck(coords, movement, boundaries){
 // Validations
 
 function validateBoundaries(boundaries){
-  if (boundaries.length > 2 || boundaries.some(isNaN)) {
-    alert('boundaries must contain only 2 numbers seperated by a space.')
-    return false
+  if (boundaries.length === 2 && !boundaries.some(isNaN)) {
+    return true
   }
-  return true
+  alert('boundaries must contain only 2 numbers seperated by a space.')
 }
 
 function validateDuckPuts(duckPuts){
-  if (duckPuts.length % 2 !== 0) {
-    alert('Duck Info must contain two lines per duck with starting coordinates followed by movement instructions.')
-    return false
+  if (duckPuts.length % 2 === 0) {
+    return true
   }
-  return true
+  alert('Duck Info must contain two lines per duck with starting coordinates followed by movement instructions.')
 }
 
 function validateInDuckStions(inDuckStions, boundaries){
