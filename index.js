@@ -1,8 +1,10 @@
+// Submit Listener
 document.getElementById('pond_form').addEventListener('submit', function(event) {
   event.preventDefault()
   navigateDucks()
 })
 
+// Runner Function
 function navigateDucks(){
   var boundariesRaw = document.getElementById('pond_size').value
   var boundaries = boundariesRaw.toUpperCase().trim().replace(/  +/g, ' ').split(' ')
@@ -10,14 +12,7 @@ function navigateDucks(){
   var duckPutsRaw = document.getElementById('duck_info').value
   var duckPuts = duckPutsRaw.toUpperCase().trim().split(/\r?\n|\r/)
 
-  var inDuckStions = []
-  if (validateDuckPuts(duckPuts)) {
-    for (var i = 0; i < duckPuts.length; i++) {
-      if (i === 0 || i % 2 === 0) {
-        inDuckStions.push(duckPuts[i].trim().split(' ').concat(duckPuts[i + 1].trim().split('')))
-      }
-    }
-  }
+  var inDuckStions = duckPutsToInstructions(duckPuts)
   var whereAreTheyNow = []
   if (validateBoundaries(boundaries) && validateInDuckStions(inDuckStions, boundaries)) {
     for(var i = 0; i < inDuckStions.length; i++){
@@ -26,12 +21,36 @@ function navigateDucks(){
       whereAreTheyNow.push(moveDuck(coords, movement, boundaries))
     }
   }
+  stringFormatAndOutput(whereAreTheyNow)
+  viewOutput()
+}
+
+// Runner Helpers
+
+function duckPutsToInstructions(duckPuts) {
+  var inDuckStions = []
+  if (validateDuckPuts(duckPuts)) {
+    for (var i = 0; i < duckPuts.length; i++) {
+      if (i === 0 || i % 2 === 0) {
+        inDuckStions.push(duckPuts[i].trim().split(' ').concat(duckPuts[i + 1].trim().split('')))
+      }
+    }
+  }
+  return inDuckStions
+}
+
+function stringFormatAndOutput(whereAreTheyNow){
   var outputText = whereAreTheyNow.map(t => {
     return `<p>${t.join(' ')}</p>`
   }).join('')
   document.getElementById('output').innerHTML = (`<label>Output:</label><br> ${outputText}`)
-  viewOutput()
 }
+
+function viewOutput(){
+  document.getElementById('output').style.display = 'inline'
+}
+
+// Ducky Computation
 
 function moveDuck(coords, movement, boundaries){
   var newCoords = coords
@@ -43,34 +62,34 @@ function moveDuck(coords, movement, boundaries){
     } else if (m === 'S') {
       newCoords[2] = dirS[coords[2]]
     } else {
-      if (true) {
-        switch (coords[2]) {
-          case 'N':
-            if (!(parseInt(newCoords[1], 10) === parseInt(boundaries[1], 10))) {
-              newCoords[1] = parseInt(coords[1], 10) + 1
-            }
-            break
-          case 'S':
-            if (!(parseInt(newCoords[1], 10) === 0)) {
-              newCoords[1] = parseInt(coords[1], 10) - 1
-            }
-            break
-          case 'E':
-            if (!(parseInt(newCoords[0], 10) === parseInt(boundaries[0], 10))) {
-              newCoords[0] = parseInt(coords[0], 10) + 1
-            }
-            break
-          case 'W':
-            if (!(parseInt(newCoords[0], 10) === 0)) {
-              newCoords[0] = parseInt(coords[0], 10) - 1
-            }
-            break
-        }
+      switch (coords[2]) {
+        case 'N':
+          if (!(parseInt(newCoords[1], 10) === parseInt(boundaries[1], 10))) {
+            newCoords[1] = parseInt(coords[1], 10) + 1
+          }
+          break
+        case 'S':
+          if (!(parseInt(newCoords[1], 10) === 0)) {
+            newCoords[1] = parseInt(coords[1], 10) - 1
+          }
+          break
+        case 'E':
+          if (!(parseInt(newCoords[0], 10) === parseInt(boundaries[0], 10))) {
+            newCoords[0] = parseInt(coords[0], 10) + 1
+          }
+          break
+        case 'W':
+          if (!(parseInt(newCoords[0], 10) === 0)) {
+            newCoords[0] = parseInt(coords[0], 10) - 1
+          }
+          break
       }
     }
   })
   return newCoords
 }
+
+// Validations
 
 function validateBoundaries(boundaries){
   if (boundaries.length > 2 || boundaries.some(isNaN)) {
@@ -113,8 +132,5 @@ function validateInDuckStions(inDuckStions, boundaries){
 }
 
 const validateMovement = m => ['P', 'S', 'F'].includes(m)
-const validateDirection = d => ['N', 'S', 'E', 'W'].includes(d)
 
-function viewOutput(){
-  document.getElementById('output').style.display = 'inline'
-}
+const validateDirection = d => ['N', 'S', 'E', 'W'].includes(d)
