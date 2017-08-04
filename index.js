@@ -1,52 +1,38 @@
-document.getElementById('pond_form').addEventListener('click', function(event) {
+document.getElementById('pond_form').addEventListener('submit', function(event) {
   event.preventDefault()
   return navigateDucks()
 })
 
 function navigateDucks(){
-  // get pond boundaries
   var boundaries = document.getElementById('pond_size').value.split(' ')
-  // split the duck lists into an array of duck info arrays
   var duckPuts = document.getElementById('duck_info').value.split(/\r?\n|\r/)
+  // remove spaces from before and after the string (before the split)
+  // remove all spaces preceded by a space
   var inDuckStions = []
   for (var i = 0; i < duckPuts.length; i++) {
     if (i === 0 || i % 2 === 0) {
-      inDuckStions.push(duckPuts[i].concat(duckPuts[i + 1]))
+      inDuckStions.push(duckPuts[i].split(' ').concat(duckPuts[i + 1].split(' ')))
     }
   }
   var whereAreTheyNow = []
   if (validateInputs(boundaries, duckPuts)) {
     for(var i = 0; i < inDuckStions.length; i++){
-      var movement = inDuckStions[i].slice(2, inDuckStions[i].length - 1)
-      if (validateMovement(coords, movement, boundaries)) {
-        moveDuck([inDuckStions[i][0], inDuckStions[i][1], inDuckStions[i][2]], movement, boundaries)
-      }
+      var movement = inDuckStions[i].slice(3, inDuckStions[i].length)
+      var coords = [inDuckStions[i][0], inDuckStions[i][1], inDuckStions[i][2]]
+      whereAreTheyNow.push(moveDuck(coords, movement, boundaries))
     }
   }
-  // loop over the array and for each duck with a map function
-    // modify their starting position based on the inputs
-    // validate that the duck doesn't go out of bounds
-    // assign the return value to a variable
-  // Format output
-  // append output to output field
-  // Make the output field visible
+  var outputText = whereAreTheyNow.map(t => {
+    return `<p>${t.join(' ')}</p>`
+  }).join('')
+  document.getElementById('output').innerHTML = (`<label>Output:</label><br> ${outputText}`)
   viewOutput()
 }
 
 function moveDuck(coords, movement, boundaries){
   var newCoords = coords
-  var dirS = {
-    'N': 'E',
-    'E': 'S',
-    'S': 'W',
-    'W': 'N'
-  }
-  var dirP = {
-    'N': 'W',
-    'E': 'N',
-    'S': 'E',
-    'W': 'S'
-  }
+  var dirS = {'N': 'E', 'E': 'S', 'S': 'W', 'W': 'N'}
+  var dirP = {'N': 'W', 'E': 'N', 'S': 'E', 'W': 'S'}
   movement.forEach( m => {
     if (m === 'P') {
       newCoords[2] = dirP[coords[2]]
@@ -56,16 +42,24 @@ function moveDuck(coords, movement, boundaries){
       if (validateMovement(coords, m, boundaries)) {
         switch (coords[2]) {
           case 'N':
-            newCoords[1] = coords[1] + 1
+            if (!(newCoords[1] === boundaries[1])) {
+              newCoords[1] = coords[1] + 1
+            }
             break
           case 'S':
-            newCoords[1] = coords[1] - 1
+            if (!(newCoords[1] === 0)) {
+              newCoords[1] = coords[1] - 1
+            }
             break
           case 'E':
-            newCoords[0] = coords[0] + 1
+            if (!(newCoords[0] === boundaries[0])) {
+              newCoords[0] = coords[0] + 1
+            }
             break
           case 'W':
-            newCoords[0] = coords[0] - 1
+            if (!(newCoords[0] === 0)) {
+              newCoords[0] = coords[0] - 1
+            }
             break
         }
       }
@@ -76,9 +70,18 @@ function moveDuck(coords, movement, boundaries){
 
 function validateInputs(boundaries, duckPuts){
   return true
+  // only allow spaces and numbers
+  // split the duckputs into coords, direction, movement
+  // make sure coords are within bounaries
+  // make sure direction is included in the cardinals
+  // validate each movement of the duckput
 }
 
-function validateMovement(coords, m, boundaries){
+function validateMovement(m){
+  return true
+}
+
+function validateDirection(d){
   return true
 }
 

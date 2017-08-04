@@ -3,12 +3,24 @@
   <head>
     <meta charset="utf-8">
     <title>On Golden Pond</title>
+    <style>
+      div.input {
+        width: 30%;
+        float: left;
+      }
+      div.output {
+        width: 30%;
+        float: left;
+        border: 1px solid gray;
+        padding: 1em;
+      }
+    </style>
   </head>
   <body>
     <h1>On Golden Pond</h1>
     <h4>Code Challenge</h4>
 
-    <div>
+    <div class="input">
       <form id="pond_form">
         <label>Pond Size:</label><br>
         <input id="pond_size" type="text" name="pond size" placeholder="coords as X Y"><br>
@@ -18,10 +30,7 @@
       </form>
     </div>
 
-    <div id="output" style="display: none;">
-      <label>Output:</label><br>
-      <p id='duck_output'></p>
-    </div>
+    <div class="output" id="output" style="display: none;"></div>
 
     <script type="text/javascript" src="./index.js">
 
