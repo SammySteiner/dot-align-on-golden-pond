@@ -1,0 +1,11 @@
+div.input {
+    width: 30%;
+    float: left;
+  }
+
+div.output {
+    width: 30%;
+    float: left;
+    border: 1px solid gray;
+    padding: 1em;
+  }
