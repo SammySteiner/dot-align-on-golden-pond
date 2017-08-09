@@ -68,7 +68,7 @@ function hideOutput(){
 // Ducky Computation
 
 function moveDuck(coords, movement, boundaries, dirS, dirP){
-  var newCoords = coords
+  var newCoords = coords.slice(0)
   movement.forEach( m => {
     if (m === 'P') {
       newCoords[2] = dirP[coords[2]]
