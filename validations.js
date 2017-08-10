@@ -1,4 +1,4 @@
-function runValidations(){
+function inputValidations(){
   var boundariesRaw = document.getElementById('pond_size').value
   var boundaries = boundariesRaw.toUpperCase().trim().replace(/  +/g, ' ').split(' ')
 
@@ -24,15 +24,6 @@ function validateDuckPuts(duckPuts){
   alert('Duck Info must contain two lines per duck with starting coordinates followed by movement instructions.')
 }
 
-function validatePondBoundaries(pond){
-  if (typeof pond.x === 'number') {
-    if (typeof pond.y === 'number') {
-      return true
-    }
-  }
-  alert('Pond Size must contain only 2 numbers seperated by a space.')
-}
-
 function validatePond(pond){
   if (validatePondBoundaries(pond)) {
     var counter = 0
@@ -45,7 +36,15 @@ function validatePond(pond){
       return true
     }
   }
-  alert('a')
+}
+
+function validatePondBoundaries(pond){
+  if (typeof pond.x === 'number') {
+    if (typeof pond.y === 'number') {
+      return true
+    }
+  }
+  alert('Pond Size must contain only 2 numbers seperated by a space.')
 }
 
 function validateDuck(duck, pond){
@@ -56,20 +55,22 @@ function validateDuck(duck, pond){
       }
     }
   }
-  alert("Duck starting location must contain two numbers and a direction, represented by N, E, S, or W. Each element must be seperated by a space. Each duck's starting coordinates must be within the pond size. Duck movement instructions must be written as either S, P, or F.")
+  alert("Duck starting location must contain two numbers and a direction, represented by N, E, S, or W. Each element must be seperated by a space. Each duck's starting coordinates must be within the pond size. Duck movement instructions must be written as either S, P, or F without spaces.")
 }
 
-function validateAllInstructions(set_of_instructions){
+const validateDirection = d => ['N', 'S', 'E', 'W'].includes(d)
+
+function validateAllInstructions(instructions){
   var counter = 0
-  set_of_instructions.forEach( instructions => {
-    if (validateInstructions(instructions)) {
+  instructions.forEach( instruction => {
+    if (validateInstructions(instruction.movements)) {
       counter += 1
     }
   })
-  if (counter === set_of_instructions.length) {
+  if (counter === instructions.length) {
     return true
   }
-  alert("Duck Instructinos must begin with a duck's coordinates. The duck's instructions must be written as a set of letters 'P', 'S', and 'F.'")
+  alert("Duck Instructinos must begin with a duck's coordinates. The duck's instructions must be written as a set of letters 'P', 'S', and 'F', without spaces.")
 }
 
 function validateInstructions(instructions){
@@ -84,30 +85,28 @@ function validateInstructions(instructions){
   }
 }
 
-function validateInDuckStions(inDuckStions, boundaries){
-  var counter = 0
-  inDuckStions.forEach( duck => {
-    if (typeof(parseInt(duck[0], 10)) !== 'number' || typeof(parseInt(duck[1], 10)) !== 'number' || !validateDirection(duck[2]) ) {
-      alert("Duck starting location must contain two numbers and a direction, represented by N, E, S, or W. Each element must be seperated by a space.")
-      counter++
-      return false
-    }
-    if (parseInt(duck[0], 10) > parseInt(boundaries[0], 10) || parseInt(duck[1], 10) > parseInt(boundaries[1], 10)) {
-      alert('Duck starting coordinates must be within the pond size.')
-      counter++
-      return false
-    }
-    for (var i = 3; i < duck.length; i++) {
-      if(!validateMovement(duck[i])) {
-        alert('Duck movement instructions must be written as either S, P, or F.')
-        counter++
-        return false
-      }
-    }
-  })
-  return counter === 0 ? true : false
-}
-
 const validateMovement = m => ['P', 'S', 'F'].includes(m)
 
-const validateDirection = d => ['N', 'S', 'E', 'W'].includes(d)
+// function validateInDuckStions(inDuckStions, boundaries){
+//   var counter = 0
+//   inDuckStions.forEach( duck => {
+//     if (typeof(parseInt(duck[0], 10)) !== 'number' || typeof(parseInt(duck[1], 10)) !== 'number' || !validateDirection(duck[2]) ) {
+//       alert("Duck starting location must contain two numbers and a direction, represented by N, E, S, or W. Each element must be seperated by a space.")
+//       counter++
+//       return false
+//     }
+//     if (parseInt(duck[0], 10) > parseInt(boundaries[0], 10) || parseInt(duck[1], 10) > parseInt(boundaries[1], 10)) {
+//       alert('Duck starting coordinates must be within the pond size.')
+//       counter++
+//       return false
+//     }
+//     for (var i = 3; i < duck.length; i++) {
+//       if(!validateMovement(duck[i])) {
+//         alert('Duck movement instructions must be written as either S, P, or F.')
+//         counter++
+//         return false
+//       }
+//     }
+//   })
+//   return counter === 0 ? true : false
+// }

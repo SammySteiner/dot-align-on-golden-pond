@@ -5,6 +5,20 @@ class Duck {
     this.orientation = orientation
   }
 
+  static Parse(otherLines){
+    var ducks = []
+    for (var i = 0; i < otherLines.length; i++) {
+      if (i === 0 || i % 2 === 0) {
+        var duck = otherLines[i].toUpperCase().trim().replace(/  +/g, ' ').split(' ')
+        var x = parseInt(duck[0])
+        var y = parseInt(duck[1])
+        var orientation = duck[2]
+        ducks.push(new Duck(x, y, orientation))
+      }
+    }
+    return ducks
+  }
+
   move(pond, instructions){
     instructions.forEach( i => {
       if (this.canMove(pond, i)) {

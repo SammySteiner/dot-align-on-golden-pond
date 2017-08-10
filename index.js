@@ -77,22 +77,22 @@ function moveDuck(coords, movement, boundaries, dirS, dirP){
     } else {
       switch (coords[2]) {
         case 'N':
-          if (!(parseInt(newCoords[1], 10) === parseInt(boundaries[1], 10))) {
+          if (parseInt(newCoords[1], 10) !== parseInt(boundaries[1], 10)) {
             newCoords[1] = parseInt(coords[1], 10) + 1
           }
           break
         case 'S':
-          if (!(parseInt(newCoords[1], 10) === 0)) {
+          if (parseInt(newCoords[1], 10) !== 0) {
             newCoords[1] = parseInt(coords[1], 10) - 1
           }
           break
         case 'E':
-          if (!(parseInt(newCoords[0], 10) === parseInt(boundaries[0], 10))) {
+          if (parseInt(newCoords[0], 10) !== parseInt(boundaries[0], 10)) {
             newCoords[0] = parseInt(coords[0], 10) + 1
           }
           break
         case 'W':
-          if (!(parseInt(newCoords[0], 10) === 0)) {
+          if (parseInt(newCoords[0], 10) !== 0) {
             newCoords[0] = parseInt(coords[0], 10) - 1
           }
           break
