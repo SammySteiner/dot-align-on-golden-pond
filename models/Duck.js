@@ -5,24 +5,11 @@ class Duck {
     this.orientation = orientation
   }
 
-  static Parse(otherLines){
-    var ducks = []
-    for (var i = 0; i < otherLines.length; i++) {
-      if (i === 0 || i % 2 === 0) {
-        var duck = otherLines[i].toUpperCase().trim().replace(/  +/g, ' ').split(' ')
-        var x = parseInt(duck[0])
-        var y = parseInt(duck[1])
-        var orientation = duck[2]
-        ducks.push(new Duck(x, y, orientation))
-      }
-    }
-    return ducks
-  }
 
   move(pond, instructions){
     instructions.forEach( i => {
       if (this.canMove(pond, i)) {
-        this.oneStep(i)
+        this.takeStep(i)
       }
     })
   }
@@ -54,34 +41,45 @@ class Duck {
             return true
           }
           return false
-        }
       }
     }
+  }
 
-  oneStep(instruction){
-    var dirS = {'N': 'E', 'E': 'S', 'S': 'W', 'W': 'N'}
-    var dirP = {'N': 'W', 'E': 'N', 'S': 'E', 'W': 'S'}
-
+  takeStep(instruction){
     if (instruction === 'P') {
-      this.orientation = dirP[this.orientation]
+      this.turnPort()
     } else if (instruction === 'S') {
-      this.orientation = dirS[this.orientation]
+      this.turnStarboard()
     } else if (instruction === 'F'){
-      switch (this.orientation) {
-        case 'N':
-          this.y += 1
-          break
-        case 'S':
-          this.y -= 1
-          break
-        case 'E':
-          this.x += 1
-          break
-        case 'W':
-          this.x -= 1
-          break
-        }
-      }
+      this.moveForward()
     }
+  }
+
+  turnStarboard(){
+    var starboardHash = {'N': 'E', 'E': 'S', 'S': 'W', 'W': 'N'}
+    this.orientation =  starboardHash[this.orientation]
+  }
+
+  turnPort(){
+    var portHash = {'N': 'W', 'E': 'N', 'S': 'E', 'W': 'S'}
+    this.orientation = portHash[this.orientation]
+  }
+
+  moveForward(){
+    switch (this.orientation) {
+      case 'N':
+        this.y += 1
+        break
+      case 'S':
+        this.y -= 1
+        break
+      case 'E':
+        this.x += 1
+        break
+      case 'W':
+        this.x -= 1
+        break
+    }
+  }
 
 }

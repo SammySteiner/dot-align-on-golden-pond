@@ -5,12 +5,6 @@ class Pond {
     this.ducks = []
   }
 
-  static Parse(firstLine){
-    var integers = firstLine.split(' ').map(i => parseInt(i))
-    var [x, y] = integers
-    return new Pond(x, y)
-  }
-
   fillWithDucks(ducks){
     this.ducks = ducks
   }

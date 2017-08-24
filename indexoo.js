@@ -1,7 +1,8 @@
 document.getElementById('pond_form').addEventListener('submit', function(event) {
   event.preventDefault()
-  if (inputValidations()) {
-    var input = returnInputs()
+  var input = returnInputs()
+  var validator = new Validation(input)
+  if (validator.validateInputs()) {
     var updatedPond = runOnGoldenPond(input)
     updatedPond === 'error' ? hideOutput() : displayOutput(updatedPond)
   } else {
@@ -18,6 +19,12 @@ function returnInputs(){
   input += ducksAndInstructions
   return input
 }
+
+// example inputs = "5 5
+// 1 2 N
+// PFPFPFPFF
+// 3 3 E
+// FFSFFSFSSF"
 
 function displayOutput(ducks){
   var outputText = composeOutput(ducks)

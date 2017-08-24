@@ -1,91 +1,91 @@
-function inputValidations(){
-  var boundariesRaw = document.getElementById('pond_size').value
-  var boundaries = boundariesRaw.toUpperCase().trim().replace(/  +/g, ' ').split(' ')
+// function inputValidations(){
+//   var boundariesRaw = document.getElementById('pond_size').value
+//   var boundaries = boundariesRaw.toUpperCase().trim().replace(/  +/g, ' ').split(' ')
+//
+//   var duckPutsRaw = document.getElementById('duck_info').value
+//   var duckPuts = duckPutsRaw.toUpperCase().trim().split(/\r?\n|\r/)
+//
+//   if (validateBoundaries(boundaries) && validateDuckPuts(duckPuts) ) {
+//     return true
+//   }
+// }
+//
+// function validateBoundaries(boundaries){
+//   if (boundaries.length === 2 && !boundaries.some(isNaN)) {
+//     return true
+//   }
+//   alert('boundaries must contain only 2 numbers seperated by a space.')
+// }
+//
+// function validateDuckPuts(duckPuts){
+//   if (duckPuts.length % 2 === 0) {
+//     return true
+//   }
+//   alert('Duck Info must contain two lines per duck with starting coordinates followed by movement instructions.')
+// }
 
-  var duckPutsRaw = document.getElementById('duck_info').value
-  var duckPuts = duckPutsRaw.toUpperCase().trim().split(/\r?\n|\r/)
+// function validatePond(pond){
+//   if (validatePondBoundaries(pond)) {
+//     var counter = 0
+//     pond.ducks.forEach(d => {
+//       if (validateDuck(d, pond)) {
+//         counter += 1
+//       }
+//     })
+//     if (counter === pond.ducks.length) {
+//       return true
+//     }
+//   }
+// }
+//
+// function validatePondBoundaries(pond){
+//   if (typeof pond.x === 'number') {
+//     if (typeof pond.y === 'number') {
+//       return true
+//     }
+//   }
+//   alert('Pond Size must contain only 2 numbers seperated by a space.')
+// }
+//
+// function validateDuck(duck, pond){
+//   if (typeof duck.x === 'number' && duck.x <= pond.x && duck.x >= 0) {
+//     if (typeof duck.y === 'number' && duck.y <= pond.y && duck.y >= 0) {
+//       if (validateDirection(duck.orientation)) {
+//         return true
+//       }
+//     }
+//   }
+//   alert("Duck starting location must contain two numbers and a direction, represented by N, E, S, or W. Each element must be seperated by a space. Each duck's starting coordinates must be within the pond size. Duck movement instructions must be written as either S, P, or F without spaces.")
+// }
+//
+// const validateDirection = d => ['N', 'S', 'E', 'W'].includes(d)
 
-  if (validateBoundaries(boundaries) && validateDuckPuts(duckPuts) ) {
-    return true
-  }
-}
-
-function validateBoundaries(boundaries){
-  if (boundaries.length === 2 && !boundaries.some(isNaN)) {
-    return true
-  }
-  alert('boundaries must contain only 2 numbers seperated by a space.')
-}
-
-function validateDuckPuts(duckPuts){
-  if (duckPuts.length % 2 === 0) {
-    return true
-  }
-  alert('Duck Info must contain two lines per duck with starting coordinates followed by movement instructions.')
-}
-
-function validatePond(pond){
-  if (validatePondBoundaries(pond)) {
-    var counter = 0
-    pond.ducks.forEach(d => {
-      if (validateDuck(d, pond)) {
-        counter += 1
-      }
-    })
-    if (counter === pond.ducks.length) {
-      return true
-    }
-  }
-}
-
-function validatePondBoundaries(pond){
-  if (typeof pond.x === 'number') {
-    if (typeof pond.y === 'number') {
-      return true
-    }
-  }
-  alert('Pond Size must contain only 2 numbers seperated by a space.')
-}
-
-function validateDuck(duck, pond){
-  if (typeof duck.x === 'number' && duck.x <= pond.x && duck.x >= 0) {
-    if (typeof duck.y === 'number' && duck.y <= pond.y && duck.y >= 0) {
-      if (validateDirection(duck.orientation)) {
-        return true
-      }
-    }
-  }
-  alert("Duck starting location must contain two numbers and a direction, represented by N, E, S, or W. Each element must be seperated by a space. Each duck's starting coordinates must be within the pond size. Duck movement instructions must be written as either S, P, or F without spaces.")
-}
-
-const validateDirection = d => ['N', 'S', 'E', 'W'].includes(d)
-
-function validateAllInstructions(instructions){
-  var counter = 0
-  instructions.forEach( instruction => {
-    if (validateInstructions(instruction.movements)) {
-      counter += 1
-    }
-  })
-  if (counter === instructions.length) {
-    return true
-  }
-  alert("Duck Instructinos must begin with a duck's coordinates. The duck's instructions must be written as a set of letters 'P', 'S', and 'F', without spaces.")
-}
-
-function validateInstructions(instructions){
-  var counter = 0
-  instructions.forEach( i => {
-    if (validateMovement(i)) {
-      counter += 1
-    }
-  })
-  if (counter === instructions.length) {
-    return true
-  }
-}
-
-const validateMovement = m => ['P', 'S', 'F'].includes(m)
+// function validateAllInstructions(instructions){
+//   var counter = 0
+//   instructions.forEach( instruction => {
+//     if (validateInstructions(instruction.movements)) {
+//       counter += 1
+//     }
+//   })
+//   if (counter === instructions.length) {
+//     return true
+//   }
+//   alert("Duck Instructinos must begin with a duck's coordinates. The duck's instructions must be written as a set of letters 'P', 'S', and 'F', without spaces.")
+// }
+//
+// function validateInstructions(instructions){
+//   var counter = 0
+//   instructions.forEach( i => {
+//     if (validateMovement(i)) {
+//       counter += 1
+//     }
+//   })
+//   if (counter === instructions.length) {
+//     return true
+//   }
+// }
+//
+// const validateMovement = m => ['P', 'S', 'F'].includes(m)
 
 // function validateInDuckStions(inDuckStions, boundaries){
 //   var counter = 0

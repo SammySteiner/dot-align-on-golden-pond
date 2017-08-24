@@ -1,21 +1,17 @@
 function runOnGoldenPond(input){
-  var [firstLine, otherLines] = turnInputsToLines(input)
 
-  var pond = Pond.Parse(firstLine)
-  var ducks = Duck.Parse(otherLines)
-  var instructions = Instruction.Parse(otherLines)
+  var parsedInputs = new StringParser(input)
+  var validator = new Validation(input)
+  var [firstLine, otherLines] = [parsedInputs.firstLine, parsedInputs.otherLines]
+
+  var pond = parsedInputs.parsePond(firstLine)
+  var ducks = parsedInputs.parseDucks(otherLines)
+  var instructions = parsedInputs.parseInstructions(otherLines)
 
   pond.fillWithDucks(ducks)
-  if (validatePond(pond) && validateAllInstructions(instructions)) {
+  if (validator.validatePond(pond) && validator.validateAllInstructions(instructions)) {
     pond.moveDucks(instructions)
     return pond.ducks
   }
   return 'error'
-}
-
-function turnInputsToLines(input){
-  var lines = input.split('\n')
-  var firstLine = lines[0]
-  var otherLines = lines.slice(1)
-  return [firstLine, otherLines]
 }
