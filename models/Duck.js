@@ -22,25 +22,13 @@ class Duck {
     } else {
       switch (this.orientation) {
         case 'N':
-          if (this.y < pond.y) {
-            return true
-          }
-          return false
+          return this.y < pond.y ? true : false
         case 'S':
-          if (this.y > 0) {
-            return true
-          }
-          return false
+          return this.y > 0 ? true : false
         case 'E':
-          if (this.x < pond.x) {
-            return true
-          }
-          return false
+          return this.x < pond.x ? true : false
         case 'W':
-          if (this.x > 0) {
-            return true
-          }
-          return false
+          return this.x > 0 ? true : false
       }
     }
   }
